@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JAISWAL CORPORATION - Enterprise Cyber Cafe OS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @media print {
+      body * { visibility: hidden; }
+      #printable-area, #printable-area * { visibility: visible; }
+      #printable-area { position: absolute; left: 0; top: 0; width: 100%; }
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col font-sans">
+
+  <!-- शीर्ष हेडर (Top Bar) -->
+  <header class="bg-slate-800/90 border-b border-slate-700 sticky top-0 z-50 backdrop-blur px-4 py-3 shadow-lg">
+    <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-3">
+      <div class="flex items-center gap-3">
+        <div class="bg-amber-500 text-slate-950 font-black px-3 py-1.5 rounded-lg text-lg tracking-wider shadow">
+          JC
+        </div>
+        <div>
+          <h1 class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+            JAISWAL CORPORATION
+            <span class="text-xs font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-full">v4.2 Live</span>
+          </h1>
+          <p class="text-xs text-slate-400">डिजिटल साइबर कैफ़े ऑपरेटिंग सिस्टम | बिहार व पैन-इंडिया</p>
+        </div>
+      </div>
+
+      <!-- ऑपरेटर व वॉलेट स्थिति -->
+      <div class="flex items-center gap-4 bg-slate-950/70 border border-slate-700/80 px-4 py-2 rounded-xl">
+        <div class="text-right">
+          <div class="text-[11px] text-slate-400">ऑपरेटर: <span class="text-slate-200 font-medium">8210971348</span></div>
+          <div class="text-xs text-amber-400 font-semibold">फ्लैट शुल्क: ₹20 / कार्य</div>
+        </div>
+        <div class="h-8 w-px bg-slate-800"></div>
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-wallet text-emerald-400 text-lg"></i>
+          <div>
+            <div class="text-[10px] text-slate-400 uppercase tracking-wider">वॉलेट बैलेंस</div>
+            <div id="wallet-display" class="text-lg font-black text-emerald-400 leading-none">₹500.00</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- मुख्य डेस्कटॉप एवं मोबाइल ग्रिड -->
+  <main class="max-w-7xl mx-auto p-4 md:p-6 flex-1 w-full">
+    
+    <!-- अलर्ट / स्टेटस मैसेज -->
+    <div id="status-banner" class="hidden mb-6 p-4 rounded-xl text-sm flex items-center justify-between shadow-md"></div>
+
+    <div class="mb-6 flex justify-between items-center">
+      <div>
+        <h2 class="text-lg font-bold text-white">मास्टर सर्विस डेस्क (7 कोर पोर्टफोलियो)</h2>
+        <p class="text-xs text-slate-400">कार्य का चयन करें, विवरण भरें और 1-क्लिक में आधिकारिक प्रिंट प्राप्त करें</p>
+      </div>
+      <div class="text-xs bg-slate-800 text-slate-300 px-3 py-1.5 rounded-lg border border-slate-700">
+        <i class="fa-solid fa-shield-halved text-emerald-400 mr-1"></i> Walled-Garden Mode
+      </div>
+    </div>
+
+    <!-- 7 पोर्टफोलियो ग्रिड कार्ड्स -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+      <!-- पोर्टफोलियो 1 -->
+      <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-5 hover:border-amber-500/50 transition shadow-lg">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-lg">
+            <i class="fa-solid fa-file-signature"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-slate-100">स्मार्ट फॉर्म्स एवं बैंक स्टूडियो</h3>
+            <p class="text-xs text-slate-400">Smart Forms & Legal Studio</p>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <button onclick="openServiceModal('BANK_OFFICIAL_REQS', 'आधिकारिक बैंक अनुरोध एवं केवाईसी फॉर्म')" class="w-full text-left text-xs bg-slate-900/80 hover:bg-slate-700 border border-slate-700/60 p-2.5 rounded-xl flex justify-between items-center group transition">
+            <span><i class="fa-solid fa-building-columns text-blue-400 mr-2"></i> बैंक Re-KYC / ATM / चेक फॉर्म</span>
+            <span class="text-amber-400 font-semibold group-hover:translate-x-0.5 transition">₹20 &rarr;</span>
+          </button>
+          <button onclick="openServiceModal('MATRIMONIAL_BIODATA', 'विवाह बायोडाटा मेकर')" class="w-full text-left text-xs bg-slate-900/80 hover:bg-slate-700 border border-slate-700/60 p-2.5 rounded-xl flex justify-between items-center group transition">
+            <span><i class="fa-solid fa-ring text-pink-400 mr-2"></i> शादी का बायोडाटा (पारंपरिक/वैदिक)</span>
+            <span class="text-amber-400 font-semibold group-hover:translate-x-0.5 transition">₹20 &rarr;</span>
+          </button>
+          <button onclick="openServiceModal('JOB_RESUME_CV', 'प्रोफेशनल रिज़्यूमे एवं सीवी')" class="w-full text-left text-xs bg-slate-900/80 hover:bg-slate-700 border border-slate-700/60 p-2.5 rounded-xl flex justify-between items-center group transition">
+            <span><i class="fa-solid fa-briefcase text-emerald-400 mr-2"></i> 1-पेज जॉब सीवी / रिज़्यूमे मेकर</span>
+            <span class="text-amber-400 font-semibold group-hover:translate-x-0.5 transition">₹20 &rarr;</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- पोर्टफोलियो 2 -->
+      <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-5 hover:border-amber-500/50 transition shadow-lg">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-lg">
+            <i class="fa-solid fa-seedling"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-slate-100">भूमि, राजस्व एवं पैक्स सहकारिता</h3>
+            <p class="text-xs text-slate-400">Agri-Coop & Revenue Archive</p>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <button onclick="openServiceModal('PACS_COOP_MEMBERSHIP', 'पैक्स सदस्यता (Form-1) एवं डीम्ड दावा')" class="w-full text-left text-xs bg-slate-900/80 hover:bg-slate-700 border border-slate-700/60 p-2.5 rounded-xl flex justify-between items-center group transition">
+            <span><i class="fa-solid fa-users text-emerald-400 mr-2"></i> पैक्स सदस्यता आवेदन (Form-1)</span>
+            <span class="text-amber-400 font-semibold group-hover:translate-x-0.5 transition">₹20 &rarr;</span>
+          </button>
+          <button onclick="openServiceModal('LAND_ARCHIVE_KEVALA', 'भूमि रिकॉर्ड एवं केवाला रिकवरी')" class="w-full text-left text-xs bg-slate-900/80 hover:bg-slate-700 border border-slate-700/60 p-2.5 rounded-xl flex justify-between items-center group transition">
+            <span><i class="fa-solid fa-map-location-dot text-amber-400 mr-2"></i> दाखिल-खारिज व 1950+ केवाला</span>
+            <span class="text-amber-400 font-semibold group-hover:translate-x-0.5 transition">₹20 &rarr;</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- पोर्टफोलियो 3 -->
+      <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-5 hover:border-amber-500/50 transition shadow-lg">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center text-lg">
+            <i class="fa-solid fa-heart-pulse"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-slate-100">सामाजिक सुरक्षा व स्वास्थ्य केंद्र</h3>
+            <p class="text-xs text-slate-400">Social Security & Health Hub</p>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <button onclick="openServiceModal('SSPMIS_PENSIONS', 'पेंशन एवं ई-लाभार्थी सेवा')" class="w-full text-left text-xs bg-slate-900/80 hover:bg-slate-700 border border-slate-700/60 p-2.5 rounded-xl flex justify-between items-center group transition">
+            <span><i class="fa-solid fa-person-cane text-rose-400 mr-2"></i> वृद्धजन / विधवा / दिव्यांग पेंशन</span>
+            <span class="text-amber-400 font-semibold group-hover:translate-x-0.5 transition">₹20 &rarr;</span>
+          </button>
+          <button onclick="openServiceModal('SMART_RATION_STUDIO', 'राशन कार्ड पीवीसी स्टूडियो')" class="w-full text-left text-xs bg-slate-900/80 hover:bg-slate-700 border border-slate-700/60 p-2.5 rounded-xl flex justify-between items-center group transition">
+            <span><i class="fa-solid fa-id-card text-yellow-400 mr-2"></i> 1-क्लिक PVC स्मार्ट राशन कार्ड</span>
+            <span class="text-amber-400 font-semibold group-hover:translate-x-0.5 transition">₹20 &rarr;</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- पोर्टफोलियो 4 -->
+      <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-5 hover:border-amber-500/50 transition shadow-lg">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-lg">
+            <i class="fa-solid fa-id-badge"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-slate-100">नागरिक पहचान व पंजीकरण</h3>
+            <p class="text-xs text-slate-400">Citizen Identity & Registration</p>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <button onclick="openServiceModal('CRS_BIRTH_DEATH', 'जन्म एवं मृत्यु प्रमाण पत्र (CRS)')" class="w-full text-left text-xs bg-slate-900/80 hover:bg-slate-700 border border-slate-700/60 p-2.5 rounded-xl flex justify-between items-center group transition">
+            <span><i class="fa-solid fa-baby text-purple-400 mr-2"></i> CRS जन्म-मृत्यु व SDO शपथ-पत्र</span>
+            <span class="text-amber-400 font-semibold group-hover:translate-x-0.5 transition">₹20 &rarr;</span>
+          </button>
+          <button onclick="openServiceModal('VOTER_ECI_PORTAL', 'वोटर सेवा एवं e-EPIC')" class="w-full text-left text-xs bg-slate-900/80 hover:bg-slate-700 border border-slate-700/60 p-2.5 rounded-xl flex justify-between items-center group transition">
+            <span><i class="fa-solid fa-check-to-slot text-indigo-400 mr-2"></i> वोटर फॉर्म 6, 8 व PVC प्रिंट</span>
+            <span class="text-amber-400 font-semibold group-hover:translate-x-0.5 transition">₹20 &rarr;</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- पोर्टफोलियो 5 -->
+      <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-5 hover:border-amber-500/50 transition shadow-lg">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-lg">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-slate-100">सरकारी भर्ती एवं परीक्षा इंजन</h3>
+            <p class="text-xs text-slate-400">Sarkari Recruitment Engine</p>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <button onclick="openServiceModal('STUDENT_VAULT_ACCEL', 'छात्र मास्टर लॉकर एवं ऑटो-फिल')" class="w-full text-left text-xs bg-slate-900/80 hover:bg-slate-700 border border-slate-700/60 p-2.5 rounded-xl flex justify-between items-center group transition">
+            <span><i class="fa-solid fa-bolt text-amber-400 mr-2"></i> 1-क्लिक फॉर्म ऑटो-फिल लॉकर</span>
+            <span class="text-amber-400 font-semibold group-hover:translate-x-0.5 transition">₹20 &rarr;</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- पोर्टफोलियो 6 व 7 -->
+      <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-5 hover:border-amber-500/50 transition shadow-lg">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-lg">
+            <i class="fa-solid fa-chart-line"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-slate-100">वित्तीय लोन DPR एवं बिलिंग</h3>
+            <p class="text-xs text-slate-400">Financial Accounts & DPR Suite</p>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <button onclick="openServiceModal('BANK_LOAN_DPR_SUITE', '15-पेज मास्टर बैंक लोन DPR')" class="w-full text-left text-xs bg-slate-900/80 hover:bg-slate-700 border border-slate-700/60 p-2.5 rounded-xl flex justify-between items-center group transition">
+            <span><i class="fa-solid fa-file-invoice-dollar text-emerald-400 mr-2"></i> 15-पेज बैंक लोन DPR (Mudra/PMEGP)</span>
+            <span class="text-amber-400 font-semibold group-hover:translate-x-0.5 transition">₹20 &rarr;</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- कार्य संपादन मोडल (Work Modal) -->
+  <div id="service-modal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-slate-800 border border-slate-700 w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+      
+      <div class="p-4 border-b border-slate-700 flex justify-between items-center bg-slate-850">
+        <div>
+          <h3 id="modal-service-title" class="font-bold text-white text-base">सर्विस का नाम</h3>
+          <p class="text-xs text-amber-400">वॉलेट कटौती: ₹20.00 (सफलतापूर्वक सबमिट होने पर)</p>
+        </div>
+        <button onclick="closeServiceModal()" class="text-slate-400 hover:text-white text-lg">&times;</button>
+      </div>
+
+      <div class="p-5 overflow-y-auto space-y-4">
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1">ग्राहक का नाम (Customer Name)</label>
+          <input type="text" id="cust-name" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500" placeholder="उदा. रमेश कुमार">
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1">मोबाइल नंबर (Mobile No.)</label>
+          <input type="tel" id="cust-mobile" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500" placeholder="10 अंकों का मोबाइल नंबर">
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1">कार्य का विवरण / मुख्य डेटा (Details / Notes)</label>
+          <textarea id="cust-notes" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500" placeholder="खाता नंबर, आधार संख्या या आवश्यक जानकारी..."></textarea>
+        </div>
+
+        <!-- 15-20s माइक्रो-गाइड -->
+        <div class="bg-slate-900/90 border border-slate-700/80 p-3 rounded-xl flex items-center justify-between text-xs">
+          <div class="flex items-center gap-2 text-slate-300">
+            <i class="fa-solid fa-volume-high text-amber-400"></i>
+            <span>ऑपरेटर सहायता ऑडियो (15 सेकंड)</span>
+          </div>
+          <button onclick="alert('ऑडियो गाइड: फॉर्म में विवरण भरें और ₹20 डिडक्शन के साथ प्रिंट निकालें।')" class="text-amber-400 hover:underline">सुनें</button>
+        </div>
+      </div>
+
+      <div class="p-4 border-t border-slate-700 bg-slate-900 flex justify-end gap-3">
+        <button onclick="closeServiceModal()" class="px-4 py-2 rounded-xl text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">रद्द करें</button>
+        <button id="btn-submit-task" onclick="processTask()" class="px-5 py-2 rounded-xl text-xs font-bold bg-amber-500 text-slate-950 hover:bg-amber-400 flex items-center gap-2 shadow">
+          <span>सबमिट करें एवं ₹20 काटें</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- प्रिंट एरिया (केवल प्रिंट के समय दिखेगा) -->
+  <div id="printable-area" class="hidden p-8 bg-white text-black font-sans">
+    <div style="border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 20px;">
+      <h1 style="font-size: 24px; font-weight: bold; margin: 0;">JAISWAL CORPORATION</h1>
+      <p style="font-size: 14px; margin: 2px 0;">डिजिटल नागरिक सेवा केंद्र | ऑपरेटर: 8210971348</p>
+    </div>
+    <div id="print-content" style="font-size: 14px; line-height: 1.6;"></div>
+  </div>
+
+  <script>
+    // Supabase क्रेडेंशियल्स
+    const SUPABASE_URL = 'https://ozvcvadhwdwnrxljqchq.supabase.co';
+    const SUPABASE_KEY = 'EyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im96dmN2YWRod2RtbnJ4bGptY2hxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAzNjkzOTIsImV4cCI6MjEwNTk0NTM5Mn0.fNW3OV3gHrzo_ZFFq3VWWjDwezcptsnQNt18jJeZRsw';
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    let activeServiceCode = '';
+    let currentBalance = 500.00;
+
+    function openServiceModal(code, title) {
+      activeServiceCode = code;
+      document.getElementById('modal-service-title').innerText = title;
+      document.getElementById('service-modal').classList.remove('hidden');
+    }
+
+    function closeServiceModal() {
+      document.getElementById('service-modal').classList.add('hidden');
+      document.getElementById('cust-name').value = '';
+      document.getElementById('cust-mobile').value = '';
+      document.getElementById('cust-notes').value = '';
+    }
+
+    function showStatus(msg, isSuccess = true) {
+      const banner = document.getElementById('status-banner');
+      banner.className = isSuccess 
+        ? 'mb-6 p-4 rounded-xl text-sm flex items-center justify-between shadow-md bg-emerald-500/20 border border-emerald-500/40 text-emerald-300'
+        : 'mb-6 p-4 rounded-xl text-sm flex items-center justify-between shadow-md bg-rose-500/20 border border-rose-500/40 text-rose-300';
+      banner.innerHTML = `<span>${msg}</span><button onclick="this.parentElement.classList.add('hidden')">&times;</button>`;
+      banner.classList.remove('hidden');
+    }
+
+    async function processTask() {
+      const name = document.getElementById('cust-name').value.trim();
+      const mobile = document.getElementById('cust-mobile').value.trim();
+      const notes = document.getElementById('cust-notes').value.trim();
+
+      if (!name || !mobile) {
+        alert('कृपया ग्राहक का नाम और मोबाइल नंबर दर्ज करें!');
+        return;
+      }
+
+      if (currentBalance < 20) {
+        alert('वॉलेट में अपर्याप्त बैलेंस है! रीचार्ज करें।');
+        return;
+      }
+
+      const btn = document.getElementById('btn-submit-task');
+      btn.innerText = 'प्रक्रिया जारी...';
+      btn.disabled = true;
+
+      try {
+        // वॉलेट बैलेंस कम करना (₹20 कटौती)
+        currentBalance -= 20.00;
+        document.getElementById('wallet-display').innerText = '₹' + currentBalance.toFixed(2);
+
+        // प्रिंट आउट कंटेंट तैयार करना
+        const printContent = `
+          <p><strong>कार्य प्रकार:</strong> ${document.getElementById('modal-service-title').innerText}</p>
+          <p><strong>ग्राहक का नाम:</strong> ${name}</p>
+          <p><strong>मोबाइल:</strong> ${mobile}</p>
+          <p><strong>विवरण:</strong> ${notes || 'N/A'}</p>
+          <p><strong>शुल्क कटौती:</strong> ₹20.00 (सफल)</p>
+          <p><strong>दिनांक:</strong> ${new Date().toLocaleString('hi-IN')}</p>
+          <hr style="margin: 20px 0;">
+          <p style="font-size: 12px; color: #555;">यह रसीद/दस्तावेज़ JAISWAL CORPORATION पोर्टल द्वारा प्रमाणित है।</p>
+        `;
+        document.getElementById('print-content').innerHTML = printContent;
+
+        closeServiceModal();
+        showStatus(`कार्य सफलतापूर्वक दर्ज हुआ! ₹20 वॉलेट से काटे गए। शेष बैलेंस: ₹${currentBalance.toFixed(2)}`);
+
+        // प्रिंट डायलॉग खोलें
+        setTimeout(() => {
+          window.print();
+        }, 500);
+
+      } catch (err) {
+        showStatus('कार्य निष्पादन में त्रुटि हुई: ' + err.message, false);
+      } finally {
+        btn.innerText = 'सबमिट करें एवं ₹20 काटें';
+        btn.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>
